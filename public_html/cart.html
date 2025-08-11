@@ -3,21 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minimal Shop | Cart</title>
+    <title>Your Cart | Minimal Shop</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <header class="header">
         <h1 class="logo">minimal.</h1>
+        <div class="cart-icon" id="cartIcon">
+            <img src="images/cart-icon.png" alt="Cart">
+            <span>CART (<span id="cartCount">0</span>)</span>
+        </div>
     </header>
 
     <main class="cart-container">
-        <h2>Your Cart</h2>
-        
-        <div class="cart-items" id="cartItems">
-            <!-- Cart items will be dynamically inserted here -->
+        <div class="cart-header">
+            <h2 class="cart-title">Your Cart</h2>
         </div>
-
+        
+        <div class="cart-items" id="cartItems"></div>
+        
         <div class="cart-summary">
             <div class="summary-row">
                 <span>Subtotal:</span>
@@ -32,11 +36,8 @@
                 <span id="total">$0.00</span>
             </div>
         </div>
-
-        <button class="Btn" id="checkoutBtn">
-            Proceed to Checkout
-            <svg class="svgIcon" viewBox="0 0 576 512"><path d="M512 80c8.8 0 16 7.2 16 16v32H48V96c0-8.8 7.2-16 16-16H512zm16 144V416c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V224H528zM64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H512c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zm56 304c-13.3 0-24 10.7-24 24s10.7 24 24 24h48c13.3 0 24-10.7 24-24s-10.7-24-24-24H120zm128 0c-13.3 0-24 10.7-24 24s10.7 24 24 24H360c13.3 0 24-10.7 24-24s-10.7-24-24-24H248z"></path></svg>
-        </button>
+        
+        <button class="checkout-btn" id="checkoutBtn">Proceed to Checkout</button>
     </main>
 
     <script src="js/script.js"></script>

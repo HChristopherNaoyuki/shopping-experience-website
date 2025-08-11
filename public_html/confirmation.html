@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minimal Shop | Order Confirmation</title>
+    <title>Order Confirmed | Minimal Shop</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -12,12 +12,14 @@
     </header>
 
     <main class="confirmation-container">
-        <div class="confirmation-message">
-            <h2>🎉 Purchase Complete</h2>
-            <p>Thank you for your order!</p>
-            <p>Your order number is: <span id="orderNumber"></span></p>
-            <p>A confirmation email has been sent to your address.</p>
-            <button id="backToHome" class="form-submit">Back to Home</button>
+        <div class="confirmation-card">
+            <div class="confirmation-icon">✓</div>
+            <h2 class="confirmation-title">Order Confirmed!</h2>
+            <p class="confirmation-text">Thank you for your purchase</p>
+            <p>Your order number is:</p>
+            <div class="order-number" id="orderNumber"></div>
+            <p class="confirmation-text">A confirmation email has been sent</p>
+            <button class="back-to-home" id="backToHome">Back to Home</button>
         </div>
     </main>
 
