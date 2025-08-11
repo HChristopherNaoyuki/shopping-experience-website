@@ -11,38 +11,43 @@
         <h1 class="logo">minimal.</h1>
     </header>
 
-    <main class="checkout-container">
-        <h2>Checkout</h2>
-        
-        <form class="checkout-form">
-            <div class="form-group">
-                <label for="name">Name</label>
-                <input type="text" id="name" required>
+    <div class="container">
+        <div class="card cart">
+            <label class="title">CHECKOUT</label>
+            <div class="steps">
+                <div class="step">
+                    <div>
+                        <span>SHIPPING</span>
+                        <p id="shippingAddress">Loading address...</p>
+                    </div>
+                    <hr>
+                    <div>
+                        <span>PAYMENT METHOD</span>
+                        <p id="paymentMethod">Loading payment method...</p>
+                    </div>
+                    <hr>
+                    <div class="payments">
+                        <span>PAYMENT</span>
+                        <div class="details">
+                            <span>Subtotal:</span>
+                            <span id="checkoutSubtotal">$0.00</span>
+                            <span>Shipping:</span>
+                            <span>$10.00</span>
+                            <span>Tax:</span>
+                            <span id="checkoutTax">$0.00</span>
+                        </div>
+                    </div>
+                </div>
             </div>
-            
-            <div class="form-group">
-                <label for="surname">Surname</label>
-                <input type="text" id="surname" required>
+        </div>
+
+        <div class="card checkout">
+            <div class="footer">
+                <label class="price" id="checkoutTotal">$0.00</label>
+                <button class="checkout-btn" id="completePurchase">Complete Purchase</button>
             </div>
-            
-            <div class="form-group">
-                <label for="email">Email Address</label>
-                <input type="email" id="email" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="address">Physical Address</label>
-                <input type="text" id="address" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="mobile">Mobile Number</label>
-                <input type="tel" id="mobile" required>
-            </div>
-            
-            <button type="submit" class="complete-purchase" id="completePurchase">Complete Purchase</button>
-        </form>
-    </main>
+        </div>
+    </div>
 
     <script src="js/script.js"></script>
 </body>

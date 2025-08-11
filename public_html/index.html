@@ -10,30 +10,51 @@
     <header class="header">
         <h1 class="logo">minimal.</h1>
         <div class="cart-icon" id="cartIcon">
-            <img src="https://cdn-icons-png.flaticon.com/512/3144/3144456.png" alt="Cart">
-            <span>CART</span>
+            <img src="images/cart-icon.png" alt="Cart">
+            <span>CART (<span id="cartCount">0</span>)</span>
         </div>
     </header>
 
     <main class="products-container">
-        <div class="product-card">
-            <img src="https://via.placeholder.com/300x200?text=Product+1" alt="Product 1">
-            <h3>Minimal Chair</h3>
-            <p class="price">$199</p>
+        <div class="card">
+            <div class="content">
+                <div class="title">Premium Chair</div>
+                <div class="price">$199.99</div>
+                <div class="description">Ergonomic design with premium materials for maximum comfort.</div>
+            </div>
+            <div class="quantity-control">
+                <button class="quantity-btn minus">-</button>
+                <input type="number" class="quantity-input" value="1" min="1">
+                <button class="quantity-btn plus">+</button>
+            </div>
             <button class="add-to-cart">Add to Cart</button>
         </div>
 
-        <div class="product-card">
-            <img src="https://via.placeholder.com/300x200?text=Product+2" alt="Product 2">
-            <h3>Simple Desk</h3>
-            <p class="price">$299</p>
+        <div class="card">
+            <div class="content">
+                <div class="title">Modern Desk</div>
+                <div class="price">$299.99</div>
+                <div class="description">Sleek design with ample workspace and built-in cable management.</div>
+            </div>
+            <div class="quantity-control">
+                <button class="quantity-btn minus">-</button>
+                <input type="number" class="quantity-input" value="1" min="1">
+                <button class="quantity-btn plus">+</button>
+            </div>
             <button class="add-to-cart">Add to Cart</button>
         </div>
 
-        <div class="product-card">
-            <img src="https://via.placeholder.com/300x200?text=Product+3" alt="Product 3">
-            <h3>Clean Lamp</h3>
-            <p class="price">$99</p>
+        <div class="card">
+            <div class="content">
+                <div class="title">Minimal Lamp</div>
+                <div class="price">$99.99</div>
+                <div class="description">Adjustable lighting with touch controls and energy-efficient LED.</div>
+            </div>
+            <div class="quantity-control">
+                <button class="quantity-btn minus">-</button>
+                <input type="number" class="quantity-input" value="1" min="1">
+                <button class="quantity-btn plus">+</button>
+            </div>
             <button class="add-to-cart">Add to Cart</button>
         </div>
     </main>
