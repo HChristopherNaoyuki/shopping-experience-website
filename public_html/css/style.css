@@ -1,51 +1,39 @@
 /* Global Styles */
-body
+body 
 {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f8f9fa;
-    color: #333;
-    line-height: 1.6;
+    background-color: #f5f5f7;
+    color: #1d1d1f;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
 }
 
-.header
+/* Header Styles */
+.header 
 {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1.5rem;
-    background-color: white;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    padding: 1rem 2rem;
+    background-color: #ffffff;
+    border-bottom: 1px solid #d2d2d7;
+    position: sticky;
+    top: 0;
+    z-index: 100;
 }
 
-.logo
+.logo 
 {
-    font-weight: 300;
-    letter-spacing: 1px;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #6e6e73;
     margin: 0;
 }
 
-/* Product Cards */
-.card
-{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-around;
-    width: 260px;
-    padding: 20px 1px;
-    margin: 10px 0;
-    text-align: center;
-    position: relative;
-    cursor: pointer;
-    box-shadow: 0 10px 15px -3px rgba(33,150,243,.4),0 4px 6px -4px rgba(33,150,243,.4);
-    border-radius: 10px;
-    background-color: #6B6ECC;
-    background: linear-gradient(45deg, #04051dea 0%, #2b566e 100%);
-}
-
-.products-container
+/* Product Card Styles */
+.products-container 
 {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -55,763 +43,401 @@ body
     margin: 0 auto;
 }
 
-.content
+.card 
 {
-    padding: 20px;
-}
-
-.content .price
-{
+    background: linear-gradient(135deg, #8e44ad 0%, #9b59b6 100%);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     color: white;
-    font-weight: 800;
-    font-size: 50px;
-    text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.42);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
 }
 
-.content .description
+.card:hover 
 {
-    color: rgba(255, 255, 255, 0.6);
-    margin-top: 10px;
-    font-size: 14px;
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
 }
 
-.content .title
+.card__image 
 {
-    font-weight: 800;
-    text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.64);
-    margin-top: 10px;
-    font-size: 25px;
-    letter-spacing: 1px;
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+    margin-bottom: 1.5rem;
 }
 
-/* Quantity Controls */
-.quantity-control
+.card__title 
+{
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem 0;
+    color: white;
+}
+
+.card__price 
+{
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0 0 1rem 0;
+    color: white;
+}
+
+.card__description 
+{
+    font-size: 0.875rem;
+    opacity: 0.9;
+    margin: 0 0 1.5rem 0;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* Quantity Controls (Apple-style) */
+.quantity-control 
 {
     display: flex;
     align-items: center;
-    margin: 15px 0;
-}
-
-.quantity-btn
-{
-    width: 30px;
-    height: 30px;
+    margin-bottom: 1.5rem;
     background-color: rgba(255, 255, 255, 0.2);
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+    border-radius: 999px;
+    overflow: hidden;
 }
 
-.quantity-btn:hover
+.quantity-btn 
+{
+    width: 36px;
+    height: 36px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.25rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.quantity-btn:active 
 {
     background-color: rgba(255, 255, 255, 0.3);
 }
 
-.quantity-input
+.quantity-input 
 {
-    width: 50px;
-    height: 30px;
+    width: 40px;
     text-align: center;
-    margin: 0 10px;
+    background: none;
     border: none;
-    border-radius: 5px;
-    background-color: rgba(255, 255, 255, 0.2);
     color: white;
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 0;
+    -moz-appearance: textfield;
 }
 
-/* Buttons */
-.add-to-cart
+.quantity-input::-webkit-outer-spin-button,
+.quantity-input::-webkit-inner-spin-button 
 {
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    user-select: none;
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Add to Cart Button (Apple-style) */
+.add-to-cart 
+{
+    background-color: white;
+    color: #8e44ad;
     border: none;
-    outline: none;
-    color: rgb(255 255 255);
-    text-transform: uppercase;
-    font-weight: 700;
-    font-size: .75rem;
+    border-radius: 999px;
     padding: 0.75rem 1.5rem;
-    background-color: rgb(33 150 243);
-    border-radius: 0.5rem;
-    width: 90%;
-    text-shadow: 0px 4px 18px #2c3442;
+    font-size: 1rem;
+    font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: all 0.3s ease;
+    width: 100%;
+    max-width: 200px;
 }
 
-.add-to-cart:hover
+.add-to-cart:hover 
 {
-    background-color: rgb(25, 120, 200);
+    background-color: #f5f5f7;
+    transform: scale(1.02);
 }
 
-/* Cart Icon */
-.cart-icon
+.add-to-cart:active 
+{
+    transform: scale(0.98);
+}
+
+/* Cart Icon Styles */
+.cart-icon 
 {
     display: flex;
     align-items: center;
     gap: 0.5rem;
     cursor: pointer;
+    padding: 0.5rem 1rem;
+    border-radius: 18px;
+    background-color: #f5f5f7;
+    transition: all 0.3s ease;
 }
 
-.cart-icon img
+.cart-icon:hover 
 {
-    width: 24px;
-    height: 24px;
+    background-color: #e5e5e7;
 }
 
-/* Cart Page Styles */
-.cart-container
+.cart-icon img 
 {
-    max-width: 800px;
-    margin: 2rem auto;
-    padding: 0 2rem;
+    width: 20px;
+    height: 20px;
 }
 
-.cart-items
+.cart-icon span 
 {
-    margin-bottom: 2rem;
+    font-weight: 500;
+    font-size: 0.875rem;
 }
 
-.cart-item
-{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: white;
-    padding: 1.5rem;
-    border-radius: 8px;
-    margin-bottom: 1rem;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-}
-
-.cart-item-info
-{
-    flex: 1;
-}
-
-.cart-item-title
-{
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-}
-
-.cart-item-price
-{
-    color: #666;
-}
-
-.cart-item-quantity
-{
-    display: flex;
-    align-items: center;
-}
-
-.cart-summary
-{
-    background: white;
-    padding: 1.5rem;
-    border-radius: 8px;
-    margin-bottom: 2rem;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-}
-
-.summary-row
-{
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 1rem;
-}
-
-.summary-row.total
-{
-    font-weight: 700;
-    font-size: 1.2rem;
-    border-top: 1px solid #eee;
-    padding-top: 1rem;
-}
-
-/* Pay Button */
-.Btn
-{
-    width: 130px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: rgb(15, 15, 15);
-    border: none;
-    color: white;
-    font-weight: 600;
-    gap: 8px;
-    cursor: pointer;
-    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.103);
-    position: relative;
-    overflow: hidden;
-    transition-duration: .3s;
-    margin: 0 auto;
-}
-
-.svgIcon
-{
-    width: 16px;
-}
-
-.svgIcon path
-{
-    fill: white;
-}
-
-.Btn::before
-{
-    width: 130px;
-    height: 130px;
-    position: absolute;
-    content: "";
-    background-color: white;
-    border-radius: 50%;
-    left: -100%;
-    top: 0;
-    transition-duration: .3s;
-    mix-blend-mode: difference;
-}
-
-.Btn:hover::before
-{
-    transition-duration: .3s;
-    transform: translate(100%,-50%);
-    border-radius: 0;
-}
-
-.Btn:active
-{
-    transform: translate(5px,5px);
-    transition-duration: .3s;
-}
-
-/* Checkout Page Styles */
-.container
-{
-    display: grid;
-    grid-template-columns: auto;
-    gap: 0px;
-    max-width: 600px;
-    margin: 2rem auto;
-    padding: 0 1rem;
-}
-
-hr
-{
-    height: 1px;
-    background-color: rgba(16, 86, 82, .75);
-    border: none;
-}
-
-.card
-{
-    width: 100%;
-    background: rgb(255, 250, 235);
-    box-shadow: 0px 187px 75px rgba(0, 0, 0, 0.01), 0px 105px 63px rgba(0, 0, 0, 0.05), 0px 47px 47px rgba(0, 0, 0, 0.09), 0px 12px 26px rgba(0, 0, 0, 0.1), 0px 0px 0px rgba(0, 0, 0, 0.1);
-}
-
-.title
-{
-    width: 100%;
-    height: 40px;
-    position: relative;
-    display: flex;
-    align-items: center;
-    padding-left: 20px;
-    border-bottom: 1px solid rgba(16, 86, 82, .75);
-    font-weight: 700;
-    font-size: 11px;
-    color: #000000;
-}
-
-.cart .steps
-{
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-}
-
-.cart .steps .step
-{
-    display: grid;
-    gap: 10px;
-}
-
-.cart .steps .step span
-{
-    font-size: 13px;
-    font-weight: 600;
-    color: #000000;
-    margin-bottom: 8px;
-    display: block;
-}
-
-.cart .steps .step p
-{
-    font-size: 11px;
-    font-weight: 600;
-    color: #000000;
-}
-
-.payments .details
-{
-    display: grid;
-    grid-template-columns: 10fr 1fr;
-    padding: 0px;
-    gap: 5px;
-}
-
-.payments .details span:nth-child(odd)
-{
-    font-size: 12px;
-    font-weight: 600;
-    color: #000000;
-    margin: auto auto auto 0;
-}
-
-.payments .details span:nth-child(even)
-{
-    font-size: 13px;
-    font-weight: 600;
-    color: #000000;
-    margin: auto 0 auto auto;
-}
-
-.checkout .footer
-{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 10px 10px 20px;
-    background-color: rgba(16, 86, 82, .5);
-}
-
-.price
-{
-    position: relative;
-    font-size: 22px;
-    color: #2B2B2F;
-    font-weight: 900;
-}
-
-.checkout .checkout-btn
-{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    width: 150px;
-    height: 36px;
-    background: rgba(16, 86, 82, .55);
-    box-shadow: 0px 0.5px 0.5px rgba(16, 86, 82, .75), 0px 1px 0.5px rgba(16, 86, 82, .75);
-    border-radius: 7px;
-    border: 1px solid rgb(16, 86, 82);
-    color: #000000;
-    font-size: 13px;
-    font-weight: 600;
-    transition: all 0.3s cubic-bezier(0.15, 0.83, 0.66, 1);
-    cursor: pointer;
-}
-
-.checkout .checkout-btn:hover
-{
-    background: rgba(16, 86, 82, .75);
-}
-
-/* Confirmation Page Styles */
-.confirmation-container
-{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: calc(100vh - 80px);
-}
-
-.confirmation-message
-{
-    text-align: center;
-    background: white;
-    padding: 3rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-}
-
-.confirmation-message h2
-{
-    font-weight: 300;
-    margin-bottom: 1rem;
-    font-size: 2rem;
-}
-
-.confirmation-message p
-{
-    margin: 0.5rem 0;
-    color: #666;
-}
-
-#orderNumber
-{
-    font-weight: 600;
-    color: #333;
-}
-
-/* Loading Screen Styles */
-.loader 
+/* Modal Styles (Apple-like) */
+.modal-overlay 
 {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(255, 255, 255, 0.8);
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 1000;
-}
-
-.loader-inner 
-{
-    position: relative;
-    width: 54px;
-    height: 54px;
-    border-radius: 10px;
-}
-
-.loader-inner div 
-{
-    width: 8%;
-    height: 24%;
-    background: rgb(128, 128, 128);
-    position: absolute;
-    left: 50%;
-    top: 30%;
     opacity: 0;
-    border-radius: 50px;
-    box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
-    animation: fade458 1s linear infinite;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
 }
 
-@keyframes fade458 
+.modal-overlay.active 
 {
-    from 
-    {
-        opacity: 1;
-    }
-    to 
-    {
-        opacity: 0.25;
-    }
-}
-
-.loader-inner .bar1 
-{
-    transform: rotate(0deg) translate(0, -130%);
-    animation-delay: 0s;
-}
-
-.loader-inner .bar2 
-{
-    transform: rotate(30deg) translate(0, -130%);
-    animation-delay: -1.1s;
-}
-
-.loader-inner .bar3 
-{
-    transform: rotate(60deg) translate(0, -130%);
-    animation-delay: -1s;
-}
-
-.loader-inner .bar4 
-{
-    transform: rotate(90deg) translate(0, -130%);
-    animation-delay: -0.9s;
-}
-
-.loader-inner .bar5 
-{
-    transform: rotate(120deg) translate(0, -130%);
-    animation-delay: -0.8s;
-}
-
-.loader-inner .bar6 
-{
-    transform: rotate(150deg) translate(0, -130%);
-    animation-delay: -0.7s;
-}
-
-.loader-inner .bar7 
-{
-    transform: rotate(180deg) translate(0, -130%);
-    animation-delay: -0.6s;
-}
-
-.loader-inner .bar8 
-{
-    transform: rotate(210deg) translate(0, -130%);
-    animation-delay: -0.5s;
-}
-
-.loader-inner .bar9 
-{
-    transform: rotate(240deg) translate(0, -130%);
-    animation-delay: -0.4s;
-}
-
-.loader-inner .bar10 
-{
-    transform: rotate(270deg) translate(0, -130%);
-    animation-delay: -0.3s;
-}
-
-.loader-inner .bar11 
-{
-    transform: rotate(300deg) translate(0, -130%);
-    animation-delay: -0.2s;
-}
-
-.loader-inner .bar12 
-{
-    transform: rotate(330deg) translate(0, -130%);
-    animation-delay: -0.1s;
-}
-
-/* Updated Card Styles */
-.card 
-{
-    position: relative;
-    width: 300px;
-    height: 350px;
-    background-color: #6a0dad;
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    overflow: hidden;
-    perspective: 1000px;
-    box-shadow: 0 0 0 5px #ffffff80;
-    transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    color: white;
-    padding: 20px;
-    margin: 15px;
-}
-
-.card svg 
-{
-    width: 48px;
-    fill: white;
-    transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    margin-bottom: 15px;
-}
-
-.card:hover 
-{
-    transform: scale(1.05);
-    box-shadow: 0 8px 16px rgba(106, 13, 173, 0.3);
-}
-
-.card__content 
-{
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    padding: 20px;
-    box-sizing: border-box;
-    background-color: #6a0dad;
-    transform: rotateX(-90deg);
-    transform-origin: bottom;
-    transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.card:hover .card__content 
-{
-    transform: rotateX(0deg);
-}
-
-.card__title 
-{
-    margin: 0;
-    font-size: 24px;
-    color: white;
-    font-weight: 700;
-    text-align: center;
-}
-
-.card:hover svg 
-{
-    scale: 0;
-}
-
-.card__description 
-{
-    margin: 10px 0 0;
-    font-size: 14px;
-    color: rgba(255, 255, 255, 0.8);
-    line-height: 1.4;
-    text-align: center;
-}
-
-.card__price 
-{
-    font-size: 28px;
-    font-weight: 700;
-    margin: 15px 0;
-    color: white;
-}
-
-.card__quantity 
-{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 15px 0;
-}
-
-.card__quantity input 
-{
-    width: 50px;
-    text-align: center;
-    margin: 0 10px;
-    border: none;
-    background: rgba(255, 255, 255, 0.2);
-    color: white;
-    padding: 5px;
-    border-radius: 5px;
-}
-
-.card__quantity button 
-{
-    background: rgba(255, 255, 255, 0.2);
-    border: none;
-    color: white;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-.card__add-to-cart 
-{
-    background: white;
-    color: #6a0dad;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: 600;
-    margin-top: 10px;
-    transition: all 0.3s;
-}
-
-.card__add-to-cart:hover 
-{
-    background: #f0f0f0;
-}
-
-/* Modal Styles */
-.modal 
-{
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 1001;
-    justify-content: center;
-    align-items: center;
+    opacity: 1;
+    pointer-events: all;
 }
 
 .modal-content 
 {
     background-color: white;
-    padding: 30px;
-    border-radius: 10px;
+    border-radius: 12px;
     width: 90%;
-    max-width: 500px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    max-width: 400px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    transform: translateY(20px);
+    transition: transform 0.3s ease;
+    overflow: hidden;
+}
+
+.modal-overlay.active .modal-content 
+{
+    transform: translateY(0);
+}
+
+.modal-header 
+{
+    padding: 1.5rem;
+    border-bottom: 1px solid #d2d2d7;
+    position: relative;
 }
 
 .modal-title 
 {
-    margin-top: 0;
-    color: #6a0dad;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0;
+    text-align: center;
 }
 
 .modal-close 
 {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 1.5rem;
+    right: 1.5rem;
     background: none;
     border: none;
-    font-size: 20px;
+    font-size: 1.25rem;
     cursor: pointer;
+    color: #6e6e73;
 }
 
+.modal-body 
+{
+    padding: 1.5rem;
+}
+
+/* Form Styles */
 .form-group 
 {
-    margin-bottom: 15px;
+    margin-bottom: 1.25rem;
 }
 
-.form-group label 
+.form-label 
 {
     display: block;
-    margin-bottom: 5px;
-    font-weight: 600;
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #1d1d1f;
 }
 
-.form-group input,
-.form-group select 
+.form-input 
 {
     width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 16px;
+    padding: 0.75rem 1rem;
+    border: 1px solid #d2d2d7;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
 }
 
-.form-submit 
+.form-input:focus 
 {
-    background: #6a0dad;
+    outline: none;
+    border-color: #8e44ad;
+}
+
+.form-select 
+{
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #d2d2d7;
+    border-radius: 8px;
+    font-size: 1rem;
+    background-color: white;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1em;
+}
+
+.form-actions 
+{
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.btn 
+{
+    flex: 1;
+    padding: 0.75rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.btn-primary 
+{
+    background-color: #8e44ad;
     color: white;
     border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    margin-top: 10px;
 }
 
-.form-submit:hover 
+.btn-primary:hover 
 {
-    background: #5a0b9d;
+    background-color: #7d3c98;
 }
 
-/* Edit Details Button */
-.edit-details 
+.btn-secondary 
 {
-    background: none;
+    background-color: #f5f5f7;
+    color: #1d1d1f;
     border: none;
-    color: #6a0dad;
-    text-decoration: underline;
+}
+
+.btn-secondary:hover 
+{
+    background-color: #e5e5e7;
+}
+
+/* Confirmation Page Styles */
+.confirmation-container 
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 80px);
+    padding: 2rem;
+}
+
+.confirmation-card 
+{
+    background-color: white;
+    border-radius: 12px;
+    padding: 2.5rem;
+    text-align: center;
+    max-width: 500px;
+    width: 100%;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.confirmation-icon 
+{
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+    color: #34c759;
+}
+
+.confirmation-title 
+{
+    font-size: 1.75rem;
+    font-weight: 600;
+    margin: 0 0 1rem 0;
+    color: #1d1d1f;
+}
+
+.confirmation-text 
+{
+    font-size: 1rem;
+    color: #6e6e73;
+    margin: 0 0 1.5rem 0;
+}
+
+.order-number 
+{
+    display: inline-block;
+    background-color: #f5f5f7;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-family: monospace;
+    font-size: 1.125rem;
+    color: #1d1d1f;
+    margin: 0.5rem 0;
+}
+
+.back-to-home 
+{
+    background-color: #8e44ad;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 500;
     cursor: pointer;
-    font-size: 14px;
-    margin-top: 10px;
+    transition: all 0.3s ease;
+    margin-top: 1.5rem;
+}
+
+.back-to-home:hover 
+{
+    background-color: #7d3c98;
 }

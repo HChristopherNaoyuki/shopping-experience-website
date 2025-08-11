@@ -44,64 +44,98 @@ function saveOrderDetailsToStorage()
     localStorage.setItem('orderDetails', JSON.stringify(orderDetails));
 }
 
-function showLoadingScreen()
+function showModal(title, content, buttons)
 {
-    const loader = document.createElement('div');
-    loader.className = 'loader';
-    loader.innerHTML = `
-        <div class="loader-inner">
-            <div class="bar1"></div>
-            <div class="bar2"></div>
-            <div class="bar3"></div>
-            <div class="bar4"></div>
-            <div class="bar5"></div>
-            <div class="bar6"></div>
-            <div class="bar7"></div>
-            <div class="bar8"></div>
-            <div class="bar9"></div>
-            <div class="bar10"></div>
-            <div class="bar11"></div>
-            <div class="bar12"></div>
-        </div>
-    `;
-    document.body.appendChild(loader);
+    const modalOverlay = document.createElement('div');
+    modalOverlay.className = 'modal-overlay';
     
+    const modalContent = document.createElement('div');
+    modalContent.className = 'modal-content';
+    
+    const modalHeader = document.createElement('div');
+    modalHeader.className = 'modal-header';
+    modalHeader.innerHTML = `
+        <h3 class="modal-title">${title}</h3>
+        <button class="modal-close">&times;</button>
+    `;
+    
+    const modalBody = document.createElement('div');
+    modalBody.className = 'modal-body';
+    modalBody.innerHTML = content;
+    
+    if (buttons && buttons.length > 0)
+    {
+        const modalFooter = document.createElement('div');
+        modalFooter.className = 'modal-footer';
+        modalFooter.style.padding = '1.5rem';
+        modalFooter.style.borderTop = '1px solid #d2d2d7';
+        modalFooter.style.display = 'flex';
+        modalFooter.style.gap = '1rem';
+        
+        buttons.forEach(button => 
+        {
+            const btn = document.createElement('button');
+            btn.className = `btn ${button.primary ? 'btn-primary' : 'btn-secondary'}`;
+            btn.textContent = button.text;
+            btn.addEventListener('click', button.action);
+            modalFooter.appendChild(btn);
+        });
+        
+        modalContent.appendChild(modalFooter);
+    }
+    
+    modalContent.appendChild(modalHeader);
+    modalContent.appendChild(modalBody);
+    modalOverlay.appendChild(modalContent);
+    
+    document.body.appendChild(modalOverlay);
+    
+    // Add close handler
+    modalOverlay.querySelector('.modal-close').addEventListener('click', () => 
+    {
+        modalOverlay.classList.remove('active');
+        setTimeout(() => 
+        {
+            modalOverlay.remove();
+        }, 300);
+    });
+    
+    // Trigger animation
     setTimeout(() => 
     {
-        loader.remove();
-    }, 1500);
-}
-
-function showModal(content)
-{
-    const modal = document.createElement('div');
-    modal.className = 'modal';
-    modal.innerHTML = `
-        <div class="modal-content">
-            <button class="modal-close">&times;</button>
-            ${content}
-        </div>
-    `;
-    
-    document.body.appendChild(modal);
-    modal.style.display = 'flex';
-    
-    modal.querySelector('.modal-close').addEventListener('click', () => 
-    {
-        modal.remove();
-    });
+        modalOverlay.classList.add('active');
+    }, 10);
 }
 
 function generateOrderNumber()
 {
-    return Math.floor(1000000 + Math.random() * 9000000);
+    return Math.floor(1000000 + Math.random() * 9000000).toString();
 }
 
 // Shopping Page Functionality
 function setupShoppingPage()
 {
-    const addToCartButtons = document.querySelectorAll('.card__add-to-cart');
+    const addToCartButtons = document.querySelectorAll('.add-to-cart');
     const cartIcon = document.getElementById('cartIcon');
+    
+    // Setup quantity controls
+    document.querySelectorAll('.quantity-btn').forEach(button => 
+    {
+        button.addEventListener('click', function()
+        {
+            const input = this.parentElement.querySelector('.quantity-input');
+            let value = parseInt(input.value);
+            
+            if (this.classList.contains('minus') && value > 1)
+            {
+                input.value = value - 1;
+            }
+            else if (this.classList.contains('plus'))
+            {
+                input.value = value + 1;
+            }
+        });
+    });
     
     if (addToCartButtons.length > 0)
     {
@@ -112,7 +146,7 @@ function setupShoppingPage()
                 const card = this.closest('.card');
                 const title = card.querySelector('.card__title').textContent;
                 const price = parseFloat(card.querySelector('.card__price').textContent.replace('$', ''));
-                const quantity = parseInt(card.querySelector('.card__quantity input').value);
+                const quantity = parseInt(card.querySelector('.quantity-input').value);
                 
                 // Check if product already in cart
                 const existingItem = cart.find(item => item.title === title);
@@ -123,7 +157,8 @@ function setupShoppingPage()
                 }
                 else
                 {
-                    cart.push({
+                    cart.push(
+                    {
                         id: Date.now(),
                         title: title,
                         price: price,
@@ -134,23 +169,32 @@ function setupShoppingPage()
                 saveCartToStorage();
                 updateCartCount();
                 
-                // Show feedback
-                showModal(`
-                    <h3 class="modal-title">Added to Cart</h3>
-                    <p>${quantity} ${title}(s) added to your cart.</p>
-                    <button class="form-submit" id="continueShopping">Continue Shopping</button>
-                    <button class="form-submit" id="goToCart">Go to Cart</button>
-                `);
-                
-                document.getElementById('continueShopping').addEventListener('click', () => 
-                {
-                    document.querySelector('.modal').remove();
-                });
-                
-                document.getElementById('goToCart').addEventListener('click', () => 
-                {
-                    window.location.href = 'cart.html';
-                });
+                showModal(
+                    'Added to Cart',
+                    `<p>${quantity} ${title}(s) added to your cart.</p>`,
+                    [
+                        {
+                            text: 'Continue Shopping',
+                            primary: false,
+                            action: function() 
+                            {
+                                document.querySelector('.modal-overlay').classList.remove('active');
+                                setTimeout(() => 
+                                {
+                                    document.querySelector('.modal-overlay').remove();
+                                }, 300);
+                            }
+                        },
+                        {
+                            text: 'Go to Cart',
+                            primary: true,
+                            action: function() 
+                            {
+                                window.location.href = 'cart.html';
+                            }
+                        }
+                    ]
+                );
             });
         });
     }
@@ -159,11 +203,7 @@ function setupShoppingPage()
     {
         cartIcon.addEventListener('click', function()
         {
-            showLoadingScreen();
-            setTimeout(() => 
-            {
-                window.location.href = 'cart.html';
-            }, 1500);
+            window.location.href = 'cart.html';
         });
     }
     
@@ -175,12 +215,13 @@ function setupCartPage()
 {
     const cartItemsContainer = document.getElementById('cartItems');
     const checkoutBtn = document.getElementById('checkoutBtn');
+    const editDetailsBtn = document.getElementById('editDetailsBtn');
     
-    if (cartItemsContainer)
+    function renderCartItems()
     {
         if (cart.length === 0)
         {
-            cartItemsContainer.innerHTML = '<p>Your cart is empty</p>';
+            cartItemsContainer.innerHTML = '<p class="empty-cart">Your cart is empty</p>';
         }
         else
         {
@@ -207,22 +248,91 @@ function setupCartPage()
         }
     }
     
-    // Update totals
-    const { subtotal, tax, total } = calculateCartTotals();
+    function updateTotals()
+    {
+        const { subtotal, tax, total } = calculateCartTotals();
+        
+        document.getElementById('subtotal').textContent = formatPrice(subtotal);
+        document.getElementById('tax').textContent = formatPrice(tax);
+        document.getElementById('total').textContent = formatPrice(total);
+    }
     
-    document.getElementById('subtotal').textContent = formatPrice(subtotal);
-    document.getElementById('tax').textContent = formatPrice(tax);
-    document.getElementById('total').textContent = formatPrice(total);
+    renderCartItems();
+    updateTotals();
     
     if (checkoutBtn)
     {
         checkoutBtn.addEventListener('click', function()
         {
-            showLoadingScreen();
-            setTimeout(() => 
-            {
-                window.location.href = 'checkout.html';
-            }, 1500);
+            window.location.href = 'checkout.html';
+        });
+    }
+    
+    if (editDetailsBtn)
+    {
+        editDetailsBtn.addEventListener('click', function()
+        {
+            showModal(
+                'Edit Your Details',
+                `
+                <form id="detailsForm">
+                    <div class="form-group">
+                        <label class="form-label" for="name">Full Name</label>
+                        <input type="text" class="form-input" id="name" value="${orderDetails.name}" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="email">Email Address</label>
+                        <input type="email" class="form-input" id="email" value="${orderDetails.email}" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="address">Shipping Address</label>
+                        <input type="text" class="form-input" id="address" value="${orderDetails.address}" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="paymentMethod">Payment Method</label>
+                        <select class="form-select" id="paymentMethod">
+                            <option value="Visa" ${orderDetails.paymentMethod === 'Visa' ? 'selected' : ''}>Visa</option>
+                            <option value="MasterCard" ${orderDetails.paymentMethod === 'MasterCard' ? 'selected' : ''}>MasterCard</option>
+                        </select>
+                    </div>
+                </form>
+                `,
+                [
+                    {
+                        text: 'Cancel',
+                        primary: false,
+                        action: function() 
+                        {
+                            document.querySelector('.modal-overlay').classList.remove('active');
+                            setTimeout(() => 
+                            {
+                                document.querySelector('.modal-overlay').remove();
+                            }, 300);
+                        }
+                    },
+                    {
+                        text: 'Save',
+                        primary: true,
+                        action: function() 
+                        {
+                            orderDetails = 
+                            {
+                                name: document.getElementById('name').value,
+                                email: document.getElementById('email').value,
+                                address: document.getElementById('address').value,
+                                paymentMethod: document.getElementById('paymentMethod').value
+                            };
+                            
+                            saveOrderDetailsToStorage();
+                            document.querySelector('.modal-overlay').classList.remove('active');
+                            setTimeout(() => 
+                            {
+                                document.querySelector('.modal-overlay').remove();
+                            }, 300);
+                        }
+                    }
+                ]
+            );
         });
     }
 }
@@ -232,68 +342,94 @@ function setupCheckoutPage()
 {
     const completePurchaseBtn = document.getElementById('completePurchase');
     const editDetailsBtn = document.getElementById('editDetailsBtn');
-    const { subtotal, tax, total } = calculateCartTotals();
     
-    // Set shipping address
-    document.getElementById('shippingAddress').textContent = orderDetails.address || 'No address provided';
+    function updateOrderDetails()
+    {
+        document.getElementById('shippingName').textContent = orderDetails.name || 'Not provided';
+        document.getElementById('shippingAddress').textContent = orderDetails.address || 'Not provided';
+        document.getElementById('paymentMethod').textContent = orderDetails.paymentMethod || 'Not selected';
+    }
     
-    // Set payment method
-    document.getElementById('paymentMethod').textContent = orderDetails.paymentMethod || 'No payment method selected';
+    function updateTotals()
+    {
+        const { subtotal, tax, total } = calculateCartTotals();
+        const shipping = 10.00;
+        
+        document.getElementById('subtotal').textContent = formatPrice(subtotal);
+        document.getElementById('tax').textContent = formatPrice(tax);
+        document.getElementById('shipping').textContent = formatPrice(shipping);
+        document.getElementById('total').textContent = formatPrice(total + shipping);
+    }
     
-    // Update totals
-    document.getElementById('checkoutSubtotal').textContent = formatPrice(subtotal);
-    document.getElementById('checkoutTax').textContent = formatPrice(tax);
-    document.getElementById('checkoutTotal').textContent = formatPrice(total + 10); // +$10 shipping
+    updateOrderDetails();
+    updateTotals();
     
     if (editDetailsBtn)
     {
         editDetailsBtn.addEventListener('click', function()
         {
-            showModal(`
-                <h3 class="modal-title">Edit Your Details</h3>
+            showModal(
+                'Edit Your Details',
+                `
                 <form id="detailsForm">
                     <div class="form-group">
-                        <label for="name">Full Name</label>
-                        <input type="text" id="name" value="${orderDetails.name}" required>
+                        <label class="form-label" for="name">Full Name</label>
+                        <input type="text" class="form-input" id="name" value="${orderDetails.name}" required>
                     </div>
                     <div class="form-group">
-                        <label for="email">Email Address</label>
-                        <input type="email" id="email" value="${orderDetails.email}" required>
+                        <label class="form-label" for="email">Email Address</label>
+                        <input type="email" class="form-input" id="email" value="${orderDetails.email}" required>
                     </div>
                     <div class="form-group">
-                        <label for="address">Shipping Address</label>
-                        <input type="text" id="address" value="${orderDetails.address}" required>
+                        <label class="form-label" for="address">Shipping Address</label>
+                        <input type="text" class="form-input" id="address" value="${orderDetails.address}" required>
                     </div>
                     <div class="form-group">
-                        <label for="paymentMethod">Payment Method</label>
-                        <select id="paymentMethodSelect">
+                        <label class="form-label" for="paymentMethod">Payment Method</label>
+                        <select class="form-select" id="paymentMethod">
                             <option value="Visa" ${orderDetails.paymentMethod === 'Visa' ? 'selected' : ''}>Visa</option>
                             <option value="MasterCard" ${orderDetails.paymentMethod === 'MasterCard' ? 'selected' : ''}>MasterCard</option>
                         </select>
                     </div>
-                    <button type="submit" class="form-submit">Save Details</button>
                 </form>
-            `);
-            
-            document.getElementById('detailsForm').addEventListener('submit', function(e)
-            {
-                e.preventDefault();
-                
-                orderDetails = 
-                {
-                    name: document.getElementById('name').value,
-                    email: document.getElementById('email').value,
-                    address: document.getElementById('address').value,
-                    paymentMethod: document.getElementById('paymentMethodSelect').value
-                };
-                
-                saveOrderDetailsToStorage();
-                document.querySelector('.modal').remove();
-                
-                // Refresh displayed details
-                document.getElementById('shippingAddress').textContent = orderDetails.address;
-                document.getElementById('paymentMethod').textContent = orderDetails.paymentMethod;
-            });
+                `,
+                [
+                    {
+                        text: 'Cancel',
+                        primary: false,
+                        action: function() 
+                        {
+                            document.querySelector('.modal-overlay').classList.remove('active');
+                            setTimeout(() => 
+                            {
+                                document.querySelector('.modal-overlay').remove();
+                            }, 300);
+                        }
+                    },
+                    {
+                        text: 'Save',
+                        primary: true,
+                        action: function() 
+                        {
+                            orderDetails = 
+                            {
+                                name: document.getElementById('name').value,
+                                email: document.getElementById('email').value,
+                                address: document.getElementById('address').value,
+                                paymentMethod: document.getElementById('paymentMethod').value
+                            };
+                            
+                            saveOrderDetailsToStorage();
+                            updateOrderDetails();
+                            document.querySelector('.modal-overlay').classList.remove('active');
+                            setTimeout(() => 
+                            {
+                                document.querySelector('.modal-overlay').remove();
+                            }, 300);
+                        }
+                    }
+                ]
+            );
         });
     }
     
@@ -303,7 +439,24 @@ function setupCheckoutPage()
         {
             if (!orderDetails.address || !orderDetails.paymentMethod)
             {
-                alert('Please provide your shipping address and payment method before completing your purchase.');
+                showModal(
+                    'Missing Information',
+                    '<p>Please provide your shipping address and payment method before completing your purchase.</p>',
+                    [
+                        {
+                            text: 'OK',
+                            primary: true,
+                            action: function() 
+                            {
+                                document.querySelector('.modal-overlay').classList.remove('active');
+                                setTimeout(() => 
+                                {
+                                    document.querySelector('.modal-overlay').remove();
+                                }, 300);
+                            }
+                        }
+                    ]
+                );
                 return;
             }
             
@@ -315,11 +468,7 @@ function setupCheckoutPage()
             cart = [];
             saveCartToStorage();
             
-            showLoadingScreen();
-            setTimeout(() => 
-            {
-                window.location.href = 'confirmation.html';
-            }, 1500);
+            window.location.href = 'confirmation.html';
         });
     }
 }
@@ -339,11 +488,7 @@ function setupConfirmationPage()
     {
         backToHomeBtn.addEventListener('click', function()
         {
-            showLoadingScreen();
-            setTimeout(() => 
-            {
-                window.location.href = 'index.html';
-            }, 1500);
+            window.location.href = 'index.html';
         });
     }
 }
@@ -351,25 +496,20 @@ function setupConfirmationPage()
 // Initialize appropriate page
 document.addEventListener('DOMContentLoaded', function()
 {
-    showLoadingScreen();
-    
-    setTimeout(() => 
+    if (document.querySelector('.products-container'))
     {
-        if (document.querySelector('.products-container'))
-        {
-            setupShoppingPage();
-        }
-        else if (document.getElementById('cartItems'))
-        {
-            setupCartPage();
-        }
-        else if (document.getElementById('checkoutTotal'))
-        {
-            setupCheckoutPage();
-        }
-        else if (document.getElementById('orderNumber'))
-        {
-            setupConfirmationPage();
-        }
-    }, 1500);
+        setupShoppingPage();
+    }
+    else if (document.getElementById('cartItems'))
+    {
+        setupCartPage();
+    }
+    else if (document.getElementById('checkoutTotal'))
+    {
+        setupCheckoutPage();
+    }
+    else if (document.getElementById('orderNumber'))
+    {
+        setupConfirmationPage();
+    }
 });
